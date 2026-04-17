@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 from fpdf import FPDF
 
 # ==========================================
-# 1. CONFIGURAÇÕES, IA E BANCO DE DADOS
+# 1. CONFIGURAÇÕES, IA E BANCO DE DADOS INICIAL
 # ==========================================
 
 load_dotenv()
