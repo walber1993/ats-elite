@@ -5,8 +5,9 @@ psycopg2-binary
 openai
 python-dotenv
 passlib[bcrypt]
-numpy
-spacy
+spacy==3.7.2
+thinc==8.2.2
+numpy>=1.19.0,<2.0.0
 pdfplumber
 pypdfium2
 https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.7.0/pt_core_news_sm-3.7.0-py3-none-any.whl
