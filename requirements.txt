@@ -10,4 +10,5 @@ thinc==8.2.2
 numpy>=1.19.0,<2.0.0
 pdfplumber
 pypdfium2
+fpdf
 https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.7.0/pt_core_news_sm-3.7.0-py3-none-any.whl
