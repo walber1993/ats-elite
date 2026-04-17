@@ -42,14 +42,20 @@ else:
     DB_URL = os.getenv("DATABASE_URL")
 
 def get_connection():
-    return psycopg2.connect(
-        host=st.secrets["DB_HOST"],
-        database=st.secrets["DB_NAME"],
-        user=st.secrets["DB_USER"],
-        password=st.secrets["DB_PASS"],
-        port=st.secrets["DB_PORT"],
-        sslmode="require"
-    )
+    try:
+        return psycopg2.connect(
+            host=st.secrets["DB_HOST"],
+            database=st.secrets["DB_NAME"],
+            user=st.secrets["DB_USER"],
+            password=st.secrets["DB_PASS"],
+            port=st.secrets["DB_PORT"],
+            sslmode="require",
+            connect_timeout=10
+        )
+    except Exception as e:
+        # Isso vai mostrar o erro real na tela do seu site
+        st.error(f"Detalhe técnico do erro: {e}")
+        st.stop()
 
 def init_db():
     conn = get_connection()
