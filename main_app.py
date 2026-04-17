@@ -41,21 +41,15 @@ if "DATABASE_URL" in st.secrets:
 else:
     DB_URL = os.getenv("DATABASE_URL")
 
-def test_connection():
-    try:
-        conn = psycopg2.connect(
-            host=st.secrets["DB_HOST"],
-            database=st.secrets["DB_NAME"],
-            user=st.secrets["DB_USER"],
-            password=st.secrets["DB_PASS"],
-            port=st.secrets["DB_PORT"],
-            sslmode="require",
-            connect_timeout=5
-        )
-        conn.close()
-        return "✅ Conectado"
-    except Exception as e:
-        return f"❌ {str(e)}"
+def get_connection():
+    return psycopg2.connect(
+        host=st.secrets["DB_HOST"],
+        database=st.secrets["DB_NAME"],
+        user=st.secrets["DB_USER"],
+        password=st.secrets["DB_PASS"],
+        port=st.secrets["DB_PORT"],
+        sslmode="require"
+    )
 
 st.write(test_connection())
 
