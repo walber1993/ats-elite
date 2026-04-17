@@ -51,8 +51,6 @@ def get_connection():
         sslmode="require"
     )
 
-st.write(test_connection())
-
 def init_db():
     conn = get_connection()
     cur = conn.cursor()
