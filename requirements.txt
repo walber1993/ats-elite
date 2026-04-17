@@ -5,7 +5,7 @@ psycopg2-binary
 openai
 python-dotenv
 passlib[bcrypt]
-spacy==3.7.2
+spacy==3.7.4
 thinc==8.2.2
 numpy>=1.19.0,<2.0.0
 pdfplumber
