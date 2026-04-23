@@ -108,10 +108,21 @@ def db_verificar_login(email, senha):
 def db_consumir_credito(email):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("UPDATE users SET credits = credits - 1 WHERE email = %s AND credits > 0", (email,))
+    
+    cur.execute("""
+        UPDATE users
+        SET credits = credits - 1
+        WHERE email = %s AND credits > 0
+        RETURNING credits;
+    """, (email,))
+    
+    result = cur.fetchone()
     conn.commit()
+    
     cur.close()
     conn.close()
+    
+    return result
 
 try:
     init_db()
@@ -194,6 +205,18 @@ with st.sidebar:
         p_nome = st.session_state.user_auth['full_name'].split()[0]
         st.write(f"Bem-vindo, **{p_nome}**! 🚀")
         st.metric("Créditos", st.session_state.user_auth['credits'])
+        # 🔥 BOTÃO INTELIGENTE DE UPGRADE
+        if (
+            st.session_state.user_auth['plan'] == 'free' and 
+            st.session_state.user_auth['credits'] <= 0
+        ):
+            st.warning("⚠️ Seus créditos acabaram.")
+    
+            if st.button("🚀 Virar PRO e Liberar Acesso"):
+                st.markdown(
+                    "[👉 Clique aqui para fazer upgrade](SEU_LINK_DE_PAGAMENTO)",
+                    unsafe_allow_html=True
+                )
         if st.button("Encerrar Sessão", key="btn_logout"):
             st.session_state.user_auth = None
             st.rerun()
@@ -228,13 +251,27 @@ else:
                 txt_vaga = st.text_area("Cole a descrição da vaga alvo:", height=250)
                 if st.button("🔍 Calcular Match Ponderado"):
                     if txt_vaga:
+                        # 🔒 CONSUME CRÉDITO COM VALIDAÇÃO
+                        result = db_consumir_credito(st.session_state.user_auth['email'])
+                
+                        if not result:
+                            st.error("🚫 Você não possui créditos disponíveis.")
+                            st.stop()
+                
+                        # Atualiza crédito na sessão
+                        st.session_state.user_auth['credits'] = result[0]
+                
                         st.session_state.vaga_atual = txt_vaga 
-                        db_consumir_credito(st.session_state.user_auth['email'])
+                        
                         cv_ent = extrair_entidades(st.session_state.cv_texto)
                         v_ent = extrair_entidades(txt_vaga)
                         score, det = calcular_match(cv_ent, v_ent)
-                        st.session_state.resultado_analise = {"score": score, "detalhes": det}
-                        st.session_state.user_auth['credits'] -= 1
+                
+                        st.session_state.resultado_analise = {
+                            "score": score,
+                            "detalhes": det
+                        }
+                
                         st.rerun()
 
         with t2:
