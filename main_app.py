@@ -234,10 +234,6 @@ with st.sidebar:
             st.session_state.user_auth = None
             st.rerun()
 
-    if st.button("Encerrar Sessão"):
-        st.session_state.user_auth = None
-        st.rerun()
-
 if not st.session_state.user_auth:
     st.header("Sua carreira não pode depender da sorte.")
     st.image("https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070", use_container_width=True)
