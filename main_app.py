@@ -209,7 +209,7 @@ with st.sidebar:
         st.write(f"Bem-vindo, **{p_nome}**! 🚀")
         st.metric("Créditos restantes", credits)
     
-        # 🔥 LÓGICA DE CONVERSÃO
+        # 🔥 USUÁRIO FREE
         if plan == 'free':
     
             if credits > 0:
@@ -225,6 +225,14 @@ with st.sidebar:
                     "[👉 Clique aqui para fazer upgrade](SEU_LINK_DE_PAGAMENTO)",
                     unsafe_allow_html=True
                 )
+    
+        # 🔥 USUÁRIO PRO
+        if plan != 'free':
+            st.success("✅ Você é PRO. Aproveite todos os recursos!")
+    
+        if st.button("Encerrar Sessão", key="btn_logout"):
+            st.session_state.user_auth = None
+            st.rerun()
 
     else:
         st.success("✅ Você é PRO. Aproveite todos os recursos!")
