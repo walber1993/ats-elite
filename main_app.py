@@ -234,7 +234,7 @@ with st.sidebar:
             st.session_state.user_auth = None
             st.rerun()
 
-    if st.button("Encerrar Sessão", key="btn_logout"):
+    if st.button("Encerrar Sessão"):
         st.session_state.user_auth = None
         st.rerun()
 
