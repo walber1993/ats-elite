@@ -202,24 +202,36 @@ with st.sidebar:
                 if ok: st.success(msg)
                 else: st.error(msg)
     else:
-        p_nome = st.session_state.user_auth['full_name'].split()[0]
-        st.write(f"Bem-vindo, **{p_nome}**! 🚀")
-        st.metric("Créditos", st.session_state.user_auth['credits'])
-        # 🔥 BOTÃO INTELIGENTE DE UPGRADE
-        if (
-            st.session_state.user_auth['plan'] == 'free' and 
-            st.session_state.user_auth['credits'] <= 0
-        ):
-            st.warning("⚠️ Seus créditos acabaram.")
-    
-            if st.button("🚀 Virar PRO e Liberar Acesso"):
-                st.markdown(
-                    "[👉 Clique aqui para fazer upgrade](SEU_LINK_DE_PAGAMENTO)",
-                    unsafe_allow_html=True
-                )
-        if st.button("Encerrar Sessão", key="btn_logout"):
-            st.session_state.user_auth = None
-            st.rerun()
+    p_nome = st.session_state.user_auth['full_name'].split()[0]
+    credits = st.session_state.user_auth['credits']
+    plan = st.session_state.user_auth['plan']
+
+    st.write(f"Bem-vindo, **{p_nome}**! 🚀")
+    st.metric("Créditos restantes", credits)
+
+    # 🔥 LÓGICA DE CONVERSÃO
+    if plan == 'free':
+
+        if credits > 0:
+            st.info(f"Você ainda tem {credits} análise(s) gratuita(s).")
+        else:
+            st.error("🚫 Seus créditos acabaram.")
+
+        st.markdown("### 🚀 Desbloqueie o modo PRO")
+        st.markdown("Tenha acesso a **50 otimizações completas de currículo e LinkedIn.**")
+
+        if st.button("🔥 Desbloquear por R$29,90"):
+            st.markdown(
+                "[👉 Clique aqui para fazer upgrade](SEU_LINK_DE_PAGAMENTO)",
+                unsafe_allow_html=True
+            )
+
+    else:
+        st.success("✅ Você é PRO. Aproveite todos os recursos!")
+
+    if st.button("Encerrar Sessão", key="btn_logout"):
+        st.session_state.user_auth = None
+        st.rerun()
 
 if not st.session_state.user_auth:
     st.header("Sua carreira não pode depender da sorte.")
