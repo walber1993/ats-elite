@@ -234,9 +234,6 @@ with st.sidebar:
             st.session_state.user_auth = None
             st.rerun()
 
-    else:
-        st.success("✅ Você é PRO. Aproveite todos os recursos!")
-
     if st.button("Encerrar Sessão", key="btn_logout"):
         st.session_state.user_auth = None
         st.rerun()
