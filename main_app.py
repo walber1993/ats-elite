@@ -202,29 +202,29 @@ with st.sidebar:
                 if ok: st.success(msg)
                 else: st.error(msg)
     else:
-    p_nome = st.session_state.user_auth['full_name'].split()[0]
-    credits = st.session_state.user_auth['credits']
-    plan = st.session_state.user_auth['plan']
-
-    st.write(f"Bem-vindo, **{p_nome}**! 🚀")
-    st.metric("Créditos restantes", credits)
-
-    # 🔥 LÓGICA DE CONVERSÃO
-    if plan == 'free':
-
-        if credits > 0:
-            st.info(f"Você ainda tem {credits} análise(s) gratuita(s).")
-        else:
-            st.error("🚫 Seus créditos acabaram.")
-
-        st.markdown("### 🚀 Desbloqueie o modo PRO")
-        st.markdown("Tenha acesso a **50 otimizações completas de currículo e LinkedIn.**")
-
-        if st.button("🔥 Desbloquear por R$29,90"):
-            st.markdown(
-                "[👉 Clique aqui para fazer upgrade](SEU_LINK_DE_PAGAMENTO)",
-                unsafe_allow_html=True
-            )
+        p_nome = st.session_state.user_auth['full_name'].split()[0]
+        credits = st.session_state.user_auth['credits']
+        plan = st.session_state.user_auth['plan']
+    
+        st.write(f"Bem-vindo, **{p_nome}**! 🚀")
+        st.metric("Créditos restantes", credits)
+    
+        # 🔥 LÓGICA DE CONVERSÃO
+        if plan == 'free':
+    
+            if credits > 0:
+                st.info(f"Você ainda tem {credits} análise(s) gratuita(s).")
+            else:
+                st.error("🚫 Seus créditos acabaram.")
+    
+            st.markdown("### 🚀 Desbloqueie o modo PRO")
+            st.markdown("Tenha acesso a **50 otimizações completas de currículo e LinkedIn.**")
+    
+            if st.button("🔥 Desbloquear por R$29,90"):
+                st.markdown(
+                    "[👉 Clique aqui para fazer upgrade](SEU_LINK_DE_PAGAMENTO)",
+                    unsafe_allow_html=True
+                )
 
     else:
         st.success("✅ Você é PRO. Aproveite todos os recursos!")
